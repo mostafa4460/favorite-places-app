@@ -7,13 +7,15 @@ import {
   PermissionStatus,
 } from "expo-location";
 import { getMapPreview } from "../../utils/location";
-import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useEffect, useState } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const LocationPicker = () => {
   const [location, setLocation] = useState();
   const [locationPermission, requestPermission] = useForegroundPermissions();
   const navigation = useNavigation();
+  const route = useRoute();
+  const savedLocation = route.params?.location;
 
   const verifyPermissions = async () => {
     let permission = true;
@@ -44,7 +46,6 @@ const LocationPicker = () => {
   const pickOnMapHandler = () => navigation.navigate("Map");
 
   let locationPreview = <Text>No location available</Text>;
-
   if (location) {
     locationPreview = (
       <Image
@@ -53,6 +54,15 @@ const LocationPicker = () => {
       />
     );
   }
+
+  useEffect(() => {
+    if (savedLocation) {
+      setLocation({
+        lat: savedLocation.latitude,
+        lng: savedLocation.longitude,
+      });
+    }
+  }, [savedLocation]);
 
   return (
     <>

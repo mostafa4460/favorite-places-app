@@ -8,10 +8,12 @@ import {
 } from "expo-location";
 import { getMapPreview } from "../../utils/location";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const LocationPicker = () => {
   const [location, setLocation] = useState();
   const [locationPermission, requestPermission] = useForegroundPermissions();
+  const navigation = useNavigation();
 
   const verifyPermissions = async () => {
     let permission = true;
@@ -31,15 +33,15 @@ const LocationPicker = () => {
   const getLocationHandler = async () => {
     const hasPermission = await verifyPermissions();
     if (hasPermission) {
-      const location = await getCurrentPositionAsync();
+      const locationResp = await getCurrentPositionAsync();
       setLocation({
-        lat: location.coords.latitude,
-        lng: location.coords.longitude,
+        lat: locationResp.coords.latitude,
+        lng: locationResp.coords.longitude,
       });
     }
   };
 
-  const pickOnMapHandler = () => {};
+  const pickOnMapHandler = () => navigation.navigate("Map");
 
   let locationPreview = <Text>No location available</Text>;
 

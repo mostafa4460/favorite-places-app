@@ -10,7 +10,7 @@ import { getMapPreview } from "../../utils/location";
 import { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-const LocationPicker = () => {
+const LocationPicker = ({ onChangeLocation }) => {
   const [location, setLocation] = useState();
   const [locationPermission, requestPermission] = useForegroundPermissions();
   const navigation = useNavigation();
@@ -63,6 +63,12 @@ const LocationPicker = () => {
       });
     }
   }, [savedLocation]);
+
+  useEffect(() => {
+    if (location) {
+      onChangeLocation(location);
+    }
+  }, [location, onChangeLocation]);
 
   return (
     <>

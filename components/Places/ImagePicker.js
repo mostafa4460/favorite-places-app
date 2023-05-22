@@ -8,7 +8,7 @@ import { useState } from "react";
 import { COLORS } from "../../constants/colors";
 import OutlinedButton from "../UI/OutlinedButton";
 
-const ImagePicker = () => {
+const ImagePicker = ({ onChangeImage }) => {
   const [imageUri, setImageUri] = useState();
   const [cameraPermission, requestPermission] = useCameraPermissions();
 
@@ -36,6 +36,7 @@ const ImagePicker = () => {
         quality: 0.5,
       });
       setImageUri(image.assets[0].uri);
+      onChangeImage(image.assets[0].uri);
     }
   };
 

@@ -4,7 +4,9 @@ import { COLORS } from "../../constants/colors";
 
 const FallbackText = () => (
   <View style={styles.fallbackContainer}>
-    <Text style={styles.fallbackText}>No places added yet - start by adding some :)</Text>
+    <Text style={styles.fallbackText}>
+      No places added yet - start by adding some :)
+    </Text>
   </View>
 );
 
@@ -15,6 +17,7 @@ const PlacesList = ({ places }) => {
 
   return (
     <FlatList
+      style={styles.list}
       data={places}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => <PlaceItem place={item} />}
@@ -25,6 +28,9 @@ const PlacesList = ({ places }) => {
 export default PlacesList;
 
 const styles = StyleSheet.create({
+  list: {
+    margin: 24,
+  },
   fallbackContainer: {
     flex: 1,
     justifyContent: "center",
@@ -32,6 +38,6 @@ const styles = StyleSheet.create({
   },
   fallbackText: {
     fontSize: 16,
-    color: COLORS.primary200
+    color: COLORS.primary200,
   },
 });

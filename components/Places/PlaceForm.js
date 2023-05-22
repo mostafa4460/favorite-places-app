@@ -4,8 +4,10 @@ import { COLORS } from "../../constants/colors";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
 import Button from "../UI/Button";
+import { getAddress } from "../../utils/location";
+import { Place } from "../../models/place";
 
-const PlaceForm = () => {
+const PlaceForm = ({ onAddPlace }) => {
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState();
   const [image, setImage] = useState();
@@ -17,10 +19,12 @@ const PlaceForm = () => {
     []
   );
 
-  const savePlaceHandler = () => {
-    console.log("TITLE => " + title);
-    console.log("LOCATION => " + location);
-    console.log("IMAGE => " + image);
+  const savePlaceHandler = async () => {
+    if (title && image && location) {
+      const address = await getAddress(location.lat, location.lng);
+      const placeData = new Place(title, image, address, location);
+      onAddPlace(placeData);
+    }
   };
 
   return (

@@ -4,7 +4,7 @@ import { insertPlace } from "../utils/database";
 const AddPlace = ({ navigation }) => {
   const addPlaceHandler = async (place) => {
     await insertPlace(place);
-    navigation.navigate("AllPlaces", { place });
+    navigation.navigate("AllPlaces");
   };
 
   return <PlaceForm onAddPlace={addPlaceHandler} />;

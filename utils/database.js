@@ -76,7 +76,17 @@ export const fetchPlaceDetails = (placeId) => {
       tx.executeSql(
         `SELECT * FROM places WHERE id = ?`,
         [placeId],
-        (_, result) => resolve(result.rows._array[0]),
+        (_, result) => {
+          const place = result.rows._array[0];
+          const placeDetails = new Place(
+            place.title,
+            place.imageUri,
+            place.address,
+            { lat: place.lat, lng: place.lng },
+            place.id
+          );
+          resolve(placeDetails);
+        },
         (_, error) => reject(error)
       );
     });
